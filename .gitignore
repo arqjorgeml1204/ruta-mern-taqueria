@@ -1,0 +1,13 @@
+# Dependencias
+node_modules/
+
+# Secretos: credenciales de MongoDB Atlas, Render, JWT. Nunca se suben.
+.env
+.env.*
+!.env.example
+
+# Builds y registros
+dist/
+build/
+*.log
+.DS_Store
