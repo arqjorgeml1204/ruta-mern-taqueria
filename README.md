@@ -1,6 +1,6 @@
-# Taquería en línea · Ruta MERN de Lumière Learning
+# Restaurante en línea · Ruta MERN de Lumière Learning
 
-Sistema de pedidos en línea para una taquería, construido paso a paso con **MongoDB, Express, React y Node.js**.
+Sistema de pedidos en línea para un restaurante, construido paso a paso con **MongoDB, Express, React y Node.js**.
 Es el proyecto del curso gratuito **Ruta MERN**: [lumiereautomata.com/learning/mern](https://lumiereautomata.com/learning/mern/).
 
 ## Qué hace (al terminar el curso)

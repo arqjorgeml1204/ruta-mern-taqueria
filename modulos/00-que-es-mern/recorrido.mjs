@@ -25,7 +25,7 @@ servidor.listen(3000, async () => {
   const respuesta = await fetch("http://localhost:3000/api/pedidos", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ platillo: "Tacos al pastor", cantidad: 3 }),
+    body: JSON.stringify({ platillo: "Enchiladas verdes", cantidad: 3 }),
   });
   console.log(respuesta.status, await respuesta.json());
   servidor.close();
