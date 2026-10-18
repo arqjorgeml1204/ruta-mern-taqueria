@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menú · Restaurante en línea</title>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="menu.js" defer></script>
+</head>
+<body>
+  <!-- HTML: la estructura. Cada etiqueta dice QUÉ es cada cosa (semántica). -->
+  <header class="cabecera">
+    <h1>Restaurante en línea</h1>
+    <p>Elige tus platillos y arma tu pedido.</p>
+  </header>
+
+  <main class="contenido">
+    <section aria-labelledby="titulo-menu">
+      <h2 id="titulo-menu">Menú</h2>
+      <nav class="filtros" aria-label="Categorías">
+        <button type="button" data-categoria="todas" aria-pressed="true">Todo</button>
+        <button type="button" data-categoria="platos" aria-pressed="false">Platos</button>
+        <button type="button" data-categoria="bebidas" aria-pressed="false">Bebidas</button>
+        <button type="button" data-categoria="postres" aria-pressed="false">Postres</button>
+      </nav>
+      <p class="estado" id="estado">Cargando el menú…</p>
+      <ul class="platillos" id="platillos"></ul>
+    </section>
+
+    <aside class="pedido" aria-labelledby="titulo-pedido">
+      <h2 id="titulo-pedido">Tu pedido</h2>
+      <ul id="lineas" class="lineas"></ul>
+      <form id="form-pedido">
+        <label for="propina">Propina (MXN)</label>
+        <input id="propina" name="propina" type="number" min="0" step="1" value="0" inputmode="numeric">
+        <p class="total">Total: <strong id="total">$0.00</strong></p>
+        <button type="submit">Hacer pedido</button>
+      </form>
+      <p class="aviso" id="aviso" role="status"></p>
+    </aside>
+  </main>
+
+  <!-- Molde de una tarjeta: JavaScript lo copia una vez por platillo -->
+  <template id="molde-platillo">
+    <li class="platillo">
+      <span class="emoji" aria-hidden="true"></span>
+      <h3 class="nombre"></h3>
+      <p class="descripcion"></p>
+      <p class="precio"></p>
+      <button type="button" class="agregar">Agregar</button>
+    </li>
+  </template>
+</body>
+</html>
