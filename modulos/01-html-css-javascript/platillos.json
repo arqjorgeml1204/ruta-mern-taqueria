@@ -1,0 +1,8 @@
+[
+  { "id": 1, "nombre": "Enchilada verde", "descripcion": "Rellena de pollo, con salsa verde, crema y queso. Precio por pieza.", "precio": 15, "categoria": "platos", "emoji": "🌯" },
+  { "id": 2, "nombre": "Pozole rojo", "descripcion": "Plato grande con maíz cacahuazintle, cerdo, rábano y lechuga.", "precio": 85, "categoria": "platos", "emoji": "🍲" },
+  { "id": 3, "nombre": "Quesadilla", "descripcion": "Tortilla de maíz hecha a mano con queso Oaxaca.", "precio": 25, "categoria": "platos", "emoji": "🫓" },
+  { "id": 4, "nombre": "Agua de jamaica", "descripcion": "Vaso de medio litro, natural.", "precio": 25, "categoria": "bebidas", "emoji": "🥤" },
+  { "id": 5, "nombre": "Café de olla", "descripcion": "Con canela y piloncillo.", "precio": 30, "categoria": "bebidas", "emoji": "☕" },
+  { "id": 6, "nombre": "Flan napolitano", "descripcion": "Rebanada con caramelo.", "precio": 35, "categoria": "postres", "emoji": "🍮" }
+]
