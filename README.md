@@ -34,6 +34,16 @@ node modulos/01-html-css-javascript/servir.mjs   # abre http://localhost:5500
 node modulos/01-html-css-javascript/quiz.mjs     # la respuesta al quiz del módulo
 ```
 
+## Módulo 2 · Git y GitHub
+Control de versiones del menú: commits, `.gitignore` para los secretos, una rama para el menú de temporada y su fusión. La práctica crea un repositorio de prueba en una carpeta temporal y la borra al terminar (no toca este proyecto).
+Requisito: Git instalado (`git --version`).
+
+```bash
+node modulos/02-git-y-github/practica.mjs   # commit, rama, merge y volver a una versión anterior
+node modulos/02-git-y-github/quiz.mjs       # la respuesta al quiz del módulo
+```
+Este repositorio sigue el mismo flujo: cada módulo es una rama con su pull request.
+
 ## Secretos
 Las credenciales viven en `server/.env`, que **nunca** se sube (está en `.gitignore`).
 Copia `server/.env.example` como `server/.env` y llena tus datos de MongoDB Atlas.
