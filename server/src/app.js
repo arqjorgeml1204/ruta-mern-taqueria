@@ -25,7 +25,8 @@ export function crearApp() {
 
   // Manejo de errores: Express lo reconoce porque recibe 4 parámetros
   app.use((err, req, res, next) => {
-    const estado = err.status ?? 500;
+    // los errores de validación del esquema de Mongoose (módulo 5) también son culpa de la petición: 400
+    const estado = err.status ?? (err.name === "ValidationError" ? 400 : 500);
     if (estado === 500) console.error(err);
     res.status(estado).json({ error: estado === 500 ? "Error interno del servidor" : err.message });
   });
