@@ -19,10 +19,21 @@ export default function Pedido() {
 
   const total = subtotal + propina;
 
-  function enviar(e) {
+  // Módulo 4: el pedido viaja a Express. Solo se mandan ids y cantidades; el total lo calcula el servidor.
+  async function enviar(e) {
     e.preventDefault(); // que el formulario no recargue la página
-    // En el módulo 4 esto se manda con fetch a POST /api/pedidos.
-    setAviso(`Pedido listo por ${pesos.format(total)}. En el módulo 4 lo recibe el servidor.`);
+    try {
+      const respuesta = await fetch("/api/pedidos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lineas: lista.map((l) => ({ id: l.platillo.id, cantidad: l.cantidad })), propina }),
+      });
+      const datos = await respuesta.json();
+      if (!respuesta.ok) throw new Error(datos.error);
+      setAviso(`Pedido #${datos.id} recibido por ${pesos.format(datos.total)}. Estado: ${datos.estado}.`);
+    } catch (error) {
+      setAviso(`No se pudo enviar el pedido (${error.message}).`);
+    }
   }
 
   return (

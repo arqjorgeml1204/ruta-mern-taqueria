@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 // Hook personalizado: carga el menú una vez y avisa si está cargando o si falló.
-// En el módulo 4 esta URL cambia por /api/platillos (Express).
-export function useMenu(url = "/platillos.json") {
+// Desde el módulo 4 el menú lo da Express (/api/platillos); en el módulo 3 era /platillos.json.
+export function useMenu(url = "/api/platillos") {
   const [platillos, setPlatillos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);

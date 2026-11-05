@@ -55,6 +55,18 @@ cd ..
 node modulos/03-react/quiz.mjs     # la respuesta al quiz del módulo
 ```
 
+## Módulo 4 · Node.js y Express
+La API en `server/`: rutas de platillos y pedidos, middleware, validación (el total lo calcula el servidor), manejo de errores y pruebas con `node --test`. Los pedidos viven en memoria; en el módulo 5 pasan a MongoDB. La app de React ya pide el menú y manda los pedidos a `/api` (Vite se los pasa a Express).
+
+```bash
+cd server
+npm install                                # una sola vez
+npm test                                   # 6 pruebas de la API
+npm run dev                                # http://localhost:4000/api/platillos
+# en otra terminal: cd client && npm run dev
+node ../modulos/04-node-y-express/quiz.mjs # la respuesta al quiz del módulo
+```
+
 ## Secretos
 Las credenciales viven en `server/.env`, que **nunca** se sube (está en `.gitignore`).
 Copia `server/.env.example` como `server/.env` y llena tus datos de MongoDB Atlas.
