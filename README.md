@@ -44,6 +44,17 @@ node modulos/02-git-y-github/quiz.mjs       # la respuesta al quiz del módulo
 ```
 Este repositorio sigue el mismo flujo: cada módulo es una rama con su pull request.
 
+## Módulo 3 · React
+El mismo menú, ahora con React en `client/`: componentes con props, estado, eventos, listas, `useEffect`, `useRef`, un hook propio que carga el menú, React Router (páginas `/` y `/pedido`) y Context para compartir el carrito.
+
+```bash
+cd client
+npm install                        # una sola vez
+npm run dev                        # abre http://localhost:5173
+cd ..
+node modulos/03-react/quiz.mjs     # la respuesta al quiz del módulo
+```
+
 ## Secretos
 Las credenciales viven en `server/.env`, que **nunca** se sube (está en `.gitignore`).
 Copia `server/.env.example` como `server/.env` y llena tus datos de MongoDB Atlas.
