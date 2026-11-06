@@ -67,6 +67,18 @@ npm run dev                                # http://localhost:4000/api/platillos
 node ../modulos/04-node-y-express/quiz.mjs # la respuesta al quiz del módulo
 ```
 
+## Módulo 5 · MongoDB
+La despensa: el menú y los pedidos pasan de la memoria a MongoDB Atlas con Mongoose. Modelos con validación (`Platillo`, `Pedido`), siembra del menú, resumen de pedidos por estado con `aggregate` y pruebas contra una base aparte (`<MONGODB_DB>_test`) que no toca tus datos. Si tu red no resuelve las direcciones `mongodb+srv://`, `src/db.js` reintenta con DNS públicos. En Atlas › Network Access tiene que estar la IP de tu compu.
+
+```bash
+cd server
+cp .env.example .env                    # y llena tus datos de Atlas
+npm run sembrar                         # sube el menú a la base
+npm test                                # 7 pruebas contra MongoDB
+npm run dev                             # http://localhost:4000/api/platillos
+node ../modulos/05-mongodb/quiz.mjs     # la respuesta al quiz del módulo
+```
+
 ## Secretos
 Las credenciales viven en `server/.env`, que **nunca** se sube (está en `.gitignore`).
 Copia `server/.env.example` como `server/.env` y llena tus datos de MongoDB Atlas.

@@ -30,7 +30,8 @@ export default function Pedido() {
       });
       const datos = await respuesta.json();
       if (!respuesta.ok) throw new Error(datos.error);
-      setAviso(`Pedido #${datos.id} recibido por ${pesos.format(datos.total)}. Estado: ${datos.estado}.`);
+      // Desde el módulo 5 el id lo pone MongoDB (24 caracteres): al cliente le basta con los últimos 6.
+      setAviso(`Pedido #${String(datos.id).slice(-6).toUpperCase()} recibido por ${pesos.format(datos.total)}. Estado: ${datos.estado}.`);
     } catch (error) {
       setAviso(`No se pudo enviar el pedido (${error.message}).`);
     }
