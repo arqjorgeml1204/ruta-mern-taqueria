@@ -11,3 +11,6 @@ dist/
 build/
 *.log
 .DS_Store
+
+# Fotos que sube el dueño (módulo 6): datos, no código
+server/uploads/

@@ -8,6 +8,7 @@ const esquemaPlatillo = new mongoose.Schema(
     precio: { type: Number, required: true, min: [0, "El precio no puede ser negativo"] },
     categoria: { type: String, enum: ["platos", "bebidas", "postres"], required: true },
     emoji: { type: String, default: "🍽️" },
+    foto: { type: String, default: "" }, // módulo 6: ruta de la foto subida por el dueño (/uploads/…)
     disponible: { type: Boolean, default: true },
   },
   {
