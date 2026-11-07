@@ -1,91 +1,262 @@
-/* Mismos colores y acomodo que el menú del módulo 1, ahora para los componentes de React. */
+/* ============================================================
+   «Carta de fonda» · guía de diseño del Restaurante en línea (módulo 6, plus de diseño)
+   Idea: una fonda mexicana impresa en papel. Fondo color masa, tinta color mole,
+   terracota como color dominante y verde salsa SOLO para las acciones (agregar, pedir, avanzar).
+   Lo que se recuerda: el papel picado de la cabecera, la carta con puntos hasta el precio
+   y las comandas perforadas del panel.
+   ============================================================ */
+
 :root {
-  --fondo: #fff8ef;
-  --tinta: #2b1d14;
-  --suave: #7a6656;
-  --acento: #1f7a4a;
-  --tarjeta: #ffffff;
-  --borde: #ecdcc8;
+  /* color: un dominante, un acento y neutrales */
+  --masa: #f6ecdc;          /* fondo */
+  --papel: #fffaf1;         /* tarjetas */
+  --mole: #2a1710;          /* texto */
+  --mole-suave: #6e5646;    /* texto secundario (contraste 5.8:1 sobre --masa) */
+  --linea: #e4d3bb;         /* bordes */
+  --terracota: #b5452a;     /* dominante: títulos, marcas, estado activo */
+  --terracota-claro: #f3d9c9;
+  --salsa: #1e6b45;         /* acento: SOLO acciones */
+  --salsa-hover: #15533a;
+  --cobalto: #1f4f8a;       /* talavera: solo el borde de los platos */
+  --error: #a3261b;
+
+  /* tipografía: una con carácter para títulos y una tranquila para leer */
+  --f-titulo: "Fraunces", Georgia, serif;
+  --f-texto: "Instrument Sans", "Segoe UI", sans-serif;
+
+  /* ritmo: todo en múltiplos de 4 px */
+  --e1: 4px; --e2: 8px; --e3: 12px; --e4: 16px; --e6: 24px; --e8: 32px; --e12: 48px;
+  --radio: 14px;
+  --sombra: 0 1px 0 rgba(42, 23, 16, 0.06), 0 10px 24px -14px rgba(42, 23, 16, 0.35);
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-  background: var(--fondo);
-  color: var(--tinta);
-  line-height: 1.5;
+  font-family: var(--f-texto);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--mole);
+  background: var(--masa);
+}
+/* textura de papel: grano muy suave encima de todo (no recibe clics) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
-.cabecera { padding: 24px 16px 8px; text-align: center; }
-.cabecera h1 { margin: 0; font-size: clamp(1.6rem, 5vw, 2.4rem); }
-.navegacion { display: flex; justify-content: center; gap: 16px; margin-top: 8px; }
-.navegacion a { color: var(--suave); text-decoration: none; padding: 4px 2px; }
-.navegacion a.active { color: var(--acento); font-weight: 700; border-bottom: 2px solid var(--acento); }
+h1, h2, h3 { font-family: var(--f-titulo); font-weight: 800; line-height: 1.1; margin: 0; }
+h2 { font-size: clamp(1.8rem, 5vw, 2.6rem); color: var(--terracota); margin-bottom: var(--e4); }
+button { font: inherit; }
+a { color: var(--terracota); font-weight: 700; text-underline-offset: 3px; }
+button:focus-visible, input:focus-visible, a:focus-visible, .subir:focus-within {
+  outline: 3px solid #e8a33d;
+  outline-offset: 2px;
+}
 
-.contenido { max-width: 1100px; margin: 0 auto; padding: 16px; }
+/* ---------- cabecera con papel picado ---------- */
+.cabecera { position: relative; padding: 0 var(--e4) var(--e6); text-align: center; }
+.picado {
+  height: 56px;
+  margin: 0 calc(-1 * var(--e4)) var(--e6);
+  /* cinco colores de papel que se repiten; la máscara recorta el pico de cada banderita */
+  background: repeating-linear-gradient(90deg, #e2547a 0 64px, #f2b134 64px 128px, #2f9c6a 128px 192px, #3a7bd5 192px 256px, #e8743b 256px 320px);
+  -webkit-mask: conic-gradient(from -40deg at 50% 100%, #0000, #000 1deg 79deg, #0000 80deg) 0 0 / 64px 100%,
+                radial-gradient(circle 5px, #0000 96%, #000) 0 10px / 21.33px 20px;
+  -webkit-mask-composite: source-in;
+  mask: conic-gradient(from -40deg at 50% 100%, #0000, #000 1deg 79deg, #0000 80deg) 0 0 / 64px 100%,
+        radial-gradient(circle 5px, #0000 96%, #000) 0 10px / 21.33px 20px;
+  mask-composite: intersect;
+  border-top: 3px solid var(--mole);
+}
+.sello {
+  display: inline-block;
+  margin: 0 0 var(--e2);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracota);
+}
+.cabecera h1 { font-size: clamp(2.2rem, 8vw, 3.6rem); letter-spacing: -0.02em; }
 
-.busqueda { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
-.busqueda input { flex: 1; min-width: 160px; }
-
-.filtros { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.filtros button {
-  border: 1px solid var(--borde);
-  background: var(--tarjeta);
+.navegacion { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--e2); margin-top: var(--e4); }
+.navegacion a, .navegacion .enlace {
+  color: var(--mole-suave);
+  text-decoration: none;
+  font-weight: 700;
+  padding: var(--e2) var(--e4);
   border-radius: 999px;
-  padding: 6px 14px;
+  border: 0;
+  background: none;
   cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
-.filtros button[aria-pressed="true"] { background: var(--acento); color: #fff; border-color: var(--acento); }
+.navegacion a:hover, .navegacion .enlace:hover { background: var(--terracota-claro); color: var(--mole); }
+.navegacion a.active { background: var(--mole); color: var(--masa); }
 
+.contenido { position: relative; max-width: 1100px; margin: 0 auto; padding: var(--e4) var(--e4) var(--e12); }
+.estado, .aviso { color: var(--mole-suave); }
+.aviso.error { color: var(--error); font-weight: 700; }
+
+/* ---------- búsqueda y filtros ---------- */
+.busqueda { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e2); margin-bottom: var(--e3); }
+.busqueda label { font-weight: 700; }
+.busqueda input { flex: 1; min-width: 180px; }
+.busqueda button { border: 1px solid var(--linea); background: var(--papel); border-radius: 999px; padding: var(--e2) var(--e4); cursor: pointer; }
+
+input {
+  padding: var(--e3) var(--e4);
+  border: 1.5px solid var(--linea);
+  border-radius: 10px;
+  background: var(--papel);
+  color: var(--mole);
+  font: inherit;
+}
+input:hover { border-color: var(--mole-suave); }
+
+.filtros { display: flex; flex-wrap: wrap; gap: var(--e2); margin-bottom: var(--e6); }
+.filtros button {
+  border: 1.5px solid var(--mole);
+  background: transparent;
+  color: var(--mole);
+  border-radius: 999px;
+  padding: var(--e1) var(--e4);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.filtros button:hover { background: var(--terracota-claro); }
+.filtros button[aria-pressed="true"] { background: var(--terracota); border-color: var(--terracota); color: #fff; }
+
+/* ---------- la carta ---------- */
 .platillos {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--e6) var(--e4);
 }
-
 .platillo {
-  background: var(--tarjeta);
-  border: 1px solid var(--borde);
-  border-radius: 12px;
-  padding: 16px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--e2);
+  padding: var(--e6) var(--e4) var(--e4);
+  background: var(--papel);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  transition: transform 0.25s, box-shadow 0.25s;
+  animation: entra 0.5s both cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation-delay: calc(var(--i, 0) * 60ms); /* cada tarjeta entra un poquito después de la anterior */
 }
-.platillo .emoji { font-size: 2.2rem; }
-.platillo h3 { margin: 0; font-size: 1.05rem; }
-.platillo .descripcion { margin: 0; color: var(--suave); font-size: 0.9rem; flex: 1; }
-.platillo .precio { margin: 4px 0; font-weight: 700; }
+.platillo:hover { transform: translateY(-4px) rotate(-0.4deg); box-shadow: 0 18px 32px -18px rgba(42, 23, 16, 0.5); }
 
-button { font: inherit; }
-.agregar, form button {
-  background: var(--acento);
+/* el emoji servido en un plato de talavera */
+.plato {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 52%, var(--masa) 53% 62%, #fff 63%);
+  box-shadow: 0 0 0 3px var(--cobalto), 0 0 0 6px #fff, 0 0 0 7px var(--cobalto), 0 8px 18px -8px rgba(42, 23, 16, 0.5);
+}
+.plato .emoji { font-size: 2.4rem; line-height: 1; }
+.platillo .foto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
+
+/* renglón de carta: nombre ..... precio */
+.renglon { display: flex; align-items: baseline; gap: var(--e2); }
+.renglon h3 { font-size: 1.25rem; }
+.puntos { flex: 1; min-width: var(--e4); border-bottom: 2px dotted var(--mole-suave); transform: translateY(-4px); }
+.platillo .precio { margin: 0; font-family: var(--f-titulo); font-weight: 800; font-size: 1.25rem; color: var(--terracota); font-variant-numeric: tabular-nums; }
+.platillo .descripcion { margin: 0; color: var(--mole-suave); font-size: 0.93rem; flex: 1; }
+
+/* acciones: el único verde de la pantalla */
+.agregar, form button, .pie-pedido button {
+  background: var(--salsa);
   color: #fff;
   border: 0;
-  border-radius: 8px;
-  padding: 8px 12px;
+  border-radius: 999px;
+  padding: var(--e3) var(--e6);
+  font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
 }
-button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #f2a33a; outline-offset: 2px; }
+.agregar:hover, form button:hover, .pie-pedido button:hover { background: var(--salsa-hover); }
+.agregar:active, form button:active, .pie-pedido button:active { transform: scale(0.97); }
+button:disabled { opacity: 0.55; cursor: default; }
 
+/* ---------- la cuenta (pedido) y el login: papel con borde perforado ---------- */
 .pedido {
   max-width: 480px;
   margin: 0 auto;
-  background: var(--tarjeta);
-  border: 1px solid var(--borde);
-  border-radius: 12px;
-  padding: 16px;
+  padding: var(--e8) var(--e6) var(--e6);
+  background: var(--papel);
+  border-radius: 4px 4px var(--radio) var(--radio);
+  box-shadow: var(--sombra);
+  /* perforación de arriba: medios círculos recortados, como un ticket arrancado */
+  -webkit-mask: radial-gradient(circle 7px at 50% 0, #0000 97%, #000) 50% 0 / 20px 100%;
+  mask: radial-gradient(circle 7px at 50% 0, #0000 97%, #000) 50% 0 / 20px 100%;
 }
-.lineas { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 6px; }
-.lineas li { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 8px; }
-.botones { display: flex; gap: 4px; }
-.botones button { border: 1px solid var(--borde); background: var(--fondo); border-radius: 6px; width: 32px; height: 32px; cursor: pointer; }
-form { display: grid; gap: 8px; }
-input { padding: 8px; border: 1px solid var(--borde); border-radius: 8px; font: inherit; }
-.total { margin: 4px 0; font-size: 1.15rem; }
-.estado, .aviso { color: var(--suave); }
+.lineas { list-style: none; padding: 0; margin: 0 0 var(--e4); display: grid; gap: var(--e2); }
+.lineas li { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: var(--e2); padding-bottom: var(--e2); border-bottom: 1px dashed var(--linea); font-variant-numeric: tabular-nums; }
+.botones { display: flex; gap: var(--e1); }
+.botones button { width: 34px; height: 34px; border: 1.5px solid var(--mole); background: transparent; border-radius: 50%; cursor: pointer; font-weight: 700; }
+.botones button:hover { background: var(--terracota-claro); }
+form { display: grid; gap: var(--e3); }
+label { display: grid; gap: var(--e1); font-weight: 700; }
+.total { margin: var(--e2) 0; font-size: 1.3rem; }
+.total strong { font-family: var(--f-titulo); color: var(--terracota); }
+
+/* ---------- panel del dueño: comandas de cocina ---------- */
+.panel { max-width: 860px; margin: 0 auto; display: grid; gap: var(--e6); }
+.panel h2 { margin-bottom: 0; }
+.resumen { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--e3); }
+.resumen li { padding: var(--e3) var(--e4); background: var(--papel); border-radius: var(--radio); border-left: 6px solid var(--terracota); box-shadow: var(--sombra); }
+.resumen li:nth-child(2) { border-left-color: #e8a33d; }
+.resumen li:nth-child(3) { border-left-color: var(--salsa); }
+.resumen strong { display: block; font-family: var(--f-titulo); font-size: 2rem; line-height: 1; }
+
+.pedidos { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--e4); }
+.pedidos li {
+  padding: var(--e6) var(--e4) var(--e4);
+  background: var(--papel);
+  border-radius: 4px 4px var(--radio) var(--radio);
+  box-shadow: var(--sombra);
+  -webkit-mask: radial-gradient(circle 6px at 50% 0, #0000 97%, #000) 50% 0 / 16px 100%;
+  mask: radial-gradient(circle 6px at 50% 0, #0000 97%, #000) 50% 0 / 16px 100%;
+}
+.pedidos p { margin: var(--e2) 0; color: var(--mole-suave); }
+.cabeza-pedido, .pie-pedido { display: flex; flex-wrap: wrap; align-items: center; gap: var(--e3); }
+.cabeza-pedido strong { font-family: var(--f-titulo); font-size: 1.2rem; letter-spacing: 0.04em; }
+.pie-pedido { justify-content: space-between; padding-top: var(--e2); border-top: 1px dashed var(--linea); }
+.pie-pedido strong { font-family: var(--f-titulo); font-size: 1.3rem; }
+.pie-pedido button { padding: var(--e2) var(--e4); }
+.etiqueta { margin-left: auto; padding: 2px var(--e3); border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; background: var(--terracota-claro); color: #93351f; } /* más oscuro que --terracota: 5.6:1 sobre su fondo */
+.etiqueta.preparando { background: #fbe7c3; color: #8a5a10; }
+.etiqueta.listo { background: #d5eedf; color: var(--salsa); }
+
+.paginas { display: flex; align-items: center; justify-content: center; gap: var(--e3); }
+.paginas button { border: 1.5px solid var(--mole); background: transparent; border-radius: 999px; padding: var(--e2) var(--e4); font-weight: 700; cursor: pointer; }
+
+.fotos { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--e2); }
+.fotos li { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: var(--e3); padding: var(--e2) var(--e3); background: var(--papel); border: 1px solid var(--linea); border-radius: var(--radio); }
+.fotos img { width: 56px; height: 56px; object-fit: cover; border-radius: 10px; }
+.fotos .emoji { font-size: 2rem; text-align: center; }
+.subir { display: inline-block; color: var(--salsa); font-weight: 700; cursor: pointer; }
+.subir input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+@keyframes entra { from { opacity: 0; transform: translateY(14px); } }
+
+/* quien pide menos movimiento en su sistema, no ve animaciones */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

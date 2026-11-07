@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { Router } from "express";
 import { Platillo } from "../modelos/Platillo.js";
 import { Pedido, ESTADOS } from "../modelos/Pedido.js";
+import { soloRol } from "../auth.js";
 
 // Un error con su código HTTP: el manejador de errores de app.js lo convierte en respuesta.
 const errorHttp = (status, message) => Object.assign(new Error(message), { status });
@@ -27,11 +28,21 @@ async function validarPedido(cuerpo) {
 export function rutasPedidos() {
   const rutas = Router();
 
-  // los más nuevos primero
-  rutas.get("/", async (req, res) => res.json(await Pedido.find().sort({ createdAt: -1 })));
+  // Panel del dueño (módulo 6): solo el dueño ve todos los pedidos, por páginas y con filtro de estado.
+  // GET /api/pedidos?pagina=2&limite=10&estado=recibido → { pedidos, total, pagina, paginas }
+  rutas.get("/", soloRol("dueno"), async (req, res) => {
+    const limite = Math.min(50, Math.max(1, Number.parseInt(req.query.limite, 10) || 10));
+    const pagina = Math.max(1, Number.parseInt(req.query.pagina, 10) || 1);
+    const filtro = ESTADOS.includes(req.query.estado) ? { estado: req.query.estado } : {};
+    const [pedidos, total] = await Promise.all([
+      Pedido.find(filtro).sort({ createdAt: -1 }).skip((pagina - 1) * limite).limit(limite), // los más nuevos primero
+      Pedido.countDocuments(filtro),
+    ]);
+    res.json({ pedidos, total, pagina, paginas: Math.max(1, Math.ceil(total / limite)) });
+  });
 
-  // Agregación: cuántos pedidos hay en cada estado y cuánto suman
-  rutas.get("/resumen", async (req, res) => {
+  // Agregación: cuántos pedidos hay en cada estado y cuánto suman (solo el dueño)
+  rutas.get("/resumen", soloRol("dueno"), async (req, res) => {
     const resumen = await Pedido.aggregate([
       { $group: { _id: "$estado", pedidos: { $sum: 1 }, total: { $sum: "$total" } } },
       { $project: { _id: 0, estado: "$_id", pedidos: 1, total: 1 } },
@@ -53,7 +64,7 @@ export function rutasPedidos() {
   });
 
   // PATCH /api/pedidos/:id/estado  { "estado": "preparando" }
-  rutas.patch("/:id/estado", async (req, res) => {
+  rutas.patch("/:id/estado", soloRol("dueno"), async (req, res) => {
     if (!ESTADOS.includes(req.body?.estado)) throw errorHttp(400, `El estado debe ser: ${ESTADOS.join(", ")}`);
     const pedido = mongoose.isValidObjectId(req.params.id)
       ? await Pedido.findByIdAndUpdate(req.params.id, { estado: req.body.estado }, { returnDocument: "after", runValidators: true })

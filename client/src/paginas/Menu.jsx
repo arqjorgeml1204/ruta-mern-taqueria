@@ -47,8 +47,8 @@ export default function Menu() {
       ) : (
         <ul className="platillos">
           {/* Listas: cada elemento lleva una key única para que React sepa cuál es cuál */}
-          {visibles.map((p) => (
-            <TarjetaPlatillo key={p.id} platillo={p} cantidad={cantidadDe(p.id)} onAgregar={agregar} />
+          {visibles.map((p, i) => (
+            <TarjetaPlatillo key={p.id} platillo={p} indice={i} cantidad={cantidadDe(p.id)} onAgregar={agregar} />
           ))}
         </ul>
       )}
