@@ -79,6 +79,20 @@ npm run dev                             # http://localhost:4000/api/platillos
 node ../modulos/05-mongodb/quiz.mjs     # la respuesta al quiz del módulo
 ```
 
+## Módulo 6 · Todo junto: app completa con login
+El dueño entra con correo y contraseña (JWT, contraseñas con bcrypt) y ve el panel: pedidos por página con filtro de estado, el resumen del día, el botón para pasar cada pedido a «preparando» y «listo», y la subida de fotos del menú (multer). El cliente no puede: la API responde 401 sin sesión y 403 sin el rol de dueño. Seguridad con Helmet y CORS. Además, el rediseño visual «Carta de fonda», explicado en [`client/DISENO.md`](client/DISENO.md) como plus del curso.
+
+```bash
+cd server
+npm install
+# en .env: JWT_SECRET, CLIENT_URL, DUENO_EMAIL y DUENO_PASSWORD (ver .env.example)
+npm run crear-dueno                     # crea la cuenta del dueño
+npm test                                # 12 pruebas: login, roles, páginas, fotos y seguridad
+npm run dev
+# en otra terminal: cd client && npm run dev → http://localhost:5173/entrar
+node ../modulos/06-app-completa/quiz.mjs
+```
+
 ## Secretos
 Las credenciales viven en `server/.env`, que **nunca** se sube (está en `.gitignore`).
 Copia `server/.env.example` como `server/.env` y llena tus datos de MongoDB Atlas.
