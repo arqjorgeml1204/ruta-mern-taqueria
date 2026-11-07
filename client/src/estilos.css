@@ -11,7 +11,7 @@
   --masa: #f6ecdc;          /* fondo */
   --papel: #fffaf1;         /* tarjetas */
   --mole: #2a1710;          /* texto */
-  --mole-suave: #6e5646;    /* texto secundario (contraste 6.4:1 sobre --masa) */
+  --mole-suave: #6e5646;    /* texto secundario (contraste 5.8:1 sobre --masa) */
   --linea: #e4d3bb;         /* bordes */
   --terracota: #b5452a;     /* dominante: títulos, marcas, estado activo */
   --terracota-claro: #f3d9c9;
@@ -240,7 +240,7 @@ label { display: grid; gap: var(--e1); font-weight: 700; }
 .pie-pedido { justify-content: space-between; padding-top: var(--e2); border-top: 1px dashed var(--linea); }
 .pie-pedido strong { font-family: var(--f-titulo); font-size: 1.3rem; }
 .pie-pedido button { padding: var(--e2) var(--e4); }
-.etiqueta { margin-left: auto; padding: 2px var(--e3); border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; background: var(--terracota-claro); color: var(--terracota); }
+.etiqueta { margin-left: auto; padding: 2px var(--e3); border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; background: var(--terracota-claro); color: #93351f; } /* más oscuro que --terracota: 5.6:1 sobre su fondo */
 .etiqueta.preparando { background: #fbe7c3; color: #8a5a10; }
 .etiqueta.listo { background: #d5eedf; color: var(--salsa); }
 
